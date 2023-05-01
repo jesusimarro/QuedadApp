@@ -20,10 +20,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::get('/users/{id}', 'App\Http\Controllers\UserController@show');
-Route::get('/users/details/{id}', 'App\Http\Controllers\UserController@showDetails');
+Route::get('/users/{id}', 'App\Http\Controllers\UserController@show'); // Muestra los datos de un usuario
+Route::delete('/users/{id}', 'App\Http\Controllers\UserController@destroy'); // Elimina un usuario
+Route::post('/users/categoria', 'App\Http\Controllers\UserController@categorias'); // Añade una categoría a un usuario
 
+Route::get('/eventos', 'App\Http\Controllers\EventoController@index'); // Muestra todos los eventos
+Route::get('/eventos/categorias/{id}', 'App\Http\Controllers\EventoController@eventosPorCategoria'); // Muestra los eventos de una categoría
 Route::get('/eventos/{id}', 'App\Http\Controllers\EventoController@show');
+Route::post('/eventos', 'App\Http\Controllers\EventoController@store'); // Crea un evento
+
+Route::get('/eventos/asistentes/{id}', 'App\Http\Controllers\EventoUserController@showAsistentes'); // Muestra los asistentes a un evento
 
 Route::prefix('v1')->group(function(){
     //Todo lo que haya en este grupo se accederá escribiendo ~/api/v1/*

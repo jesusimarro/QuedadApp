@@ -20,6 +20,11 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function eventos() {
+        return $this->belongsToMany(Evento::class);
+    }
+
+    public function evento_users()
+    {
         return $this->belongsToMany(Evento::class, 'evento_users');
     }
 
@@ -28,7 +33,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function resenas() {
-        return $this->hasMany(Resena::class);
+        return $this->belongsToMany(Resena::class, 'resena_users');
     }
 
     public function notificaciones() {

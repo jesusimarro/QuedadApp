@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class UserController extends Controller
+class EventoUserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -45,18 +44,17 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function showAsistentes($id)
     {
-        $usuario = User::select('id', 'nombre', DB::raw('TIMESTAMPDIFF(YEAR, fecha_nacimiento, NOW()) AS edad'), 'foto', 'biografia')
-            ->where('id', $id)
-            ->with(['categorias' => function ($query) {
-                $query->select('categorias.id', 'categorias.categoria')
-                ->withPivot('user_id');
-            }])
+        $datos = DB::table('evento_users')
+            ->join('users', 'users.id', '=', 'evento_users.user_id')
+            ->join('eventos', 'eventos.id', '=', 'evento_users.evento_id')
+            ->select('users.id', 'users.nombre', 'users.tipo')
+            ->where('eventos.id', $id)
             ->get();
 
         return response()->json([
-            'usuario' => $usuario
+            'datos' => $datos
         ]);
     }
 
@@ -91,28 +89,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        User::destroy($id);
-
-        return response()->json([
-            'mensaje' => 'Se ha eliminado el usuario #' . $id
-        ]);
-    }
-
-    public function categorias(Request $request) 
-    {
-        $user = User::find($request->user_id);
-
-        if (count($user->categorias) < 3) {
-            $user->categorias()->attach($request->categoria_id);
-            
-            return response()->json([
-                'mensaje' => 'La categoría se ha añadido correctamente'
-            ]);
-
-        } else {
-            return response()->json([
-                'mensaje' => 'No puedes tener más de tres categorías'
-            ]);
-        }
+        //
     }
 }

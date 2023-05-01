@@ -14,10 +14,10 @@ class CategoriaUser extends Model
     ];
 
     public function user() {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class);
     }
 
     public function categoria() {
-        return $this->belongsTo(Categoria::class);
+        return $this->belongsToMany(Categoria::class);
     }
 }
