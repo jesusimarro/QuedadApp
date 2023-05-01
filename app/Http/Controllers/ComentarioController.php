@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class EventoUserController extends Controller
+class ComentarioController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -44,13 +44,12 @@ class EventoUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function showAsistentes($id)
+    public function show($id)
     {
-        $datos = DB::table('evento_users')
-            ->join('users', 'users.id', '=', 'evento_users.user_id')
-            ->join('eventos', 'eventos.id', '=', 'evento_users.evento_id')
-            ->select('users.id', 'users.nombre', 'users.foto', 'users.tipo')
-            ->where('eventos.id', $id)
+        $datos = DB::table('comentarios')
+            ->join('users', 'users.id', '=', 'comentarios.user_id')
+            ->select('comentarios.user_id', 'users.nombre', 'users.foto', 'comentarios.comentario')
+            ->where('comentarios.evento_id', $id)
             ->get();
 
         return response()->json([

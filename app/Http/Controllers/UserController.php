@@ -36,7 +36,21 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = new User;
+        $user->nombre = $request->nombre;
+        $user->telefono = $request->telefono;
+        $user->email = $request->email;
+        $user->contrasena = $request->contrasena;
+        $user->fecha_nacimiento = $request->fecha_nacimiento;
+        $user->biografia = $request->biografia;
+        $user->foto = $request->foto;
+        $user->tipo = $request->tipo;
+        $user->save();
+
+        return response()->json([
+            'mensaje' => 'El usuario ha sido registrado correctamente',
+            'user' => $user
+        ]);
     }
 
     /**
@@ -47,7 +61,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $usuario = User::select('id', 'nombre', DB::raw('TIMESTAMPDIFF(YEAR, fecha_nacimiento, NOW()) AS edad'), 'foto', 'biografia')
+        $user = User::select('id', 'nombre', DB::raw('TIMESTAMPDIFF(YEAR, fecha_nacimiento, NOW()) AS edad'), 'foto', 'biografia')
             ->where('id', $id)
             ->with(['categorias' => function ($query) {
                 $query->select('categorias.id', 'categorias.categoria')
@@ -56,7 +70,7 @@ class UserController extends Controller
             ->get();
 
         return response()->json([
-            'usuario' => $usuario
+            'usuario' => $user
         ]);
     }
 

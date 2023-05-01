@@ -76,12 +76,10 @@ class EventoController extends Controller
         $user->evento_users()->attach($request->evento_id);
         $user->update(['estado' => 1]);
 
-        $data = [
+        return response()->json([
             'mensaje' => 'El evento ha sido creado correctamente',
             'evento' => $evento
-        ];
-
-        return response()->json($data);
+        ]);
     }
 
     /**
@@ -141,6 +139,10 @@ class EventoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Evento::destroy($id);
+
+        return response()->json([
+            'mensaje' => 'Se ha eliminado el evento #' . $id
+        ]);
     }
 }
