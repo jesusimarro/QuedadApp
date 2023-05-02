@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
             EventoUserSeeder::class,
             CategoriaUserSeeder::class,
             BloqueoSeeder::class,
-            NotificationSeeder::class
+            NotificationSeeder::class,
+            ResenaUserSeeder::class
         ]);
     }
 }

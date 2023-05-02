@@ -20,8 +20,6 @@ class ResenaSeeder extends Seeder
 
         foreach ($data as $item) {
             $modelo = new Resena();
-            $modelo->id_usuario_emisor = $item['id_usuario_emisor'];
-            $modelo->id_usuario_receptor = $item['id_usuario_receptor'];
             $modelo->mensaje = $item['mensaje'];
             $modelo->save();
         }

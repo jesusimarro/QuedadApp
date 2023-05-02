@@ -38,6 +38,7 @@ Route::get('/eventos/asistentes/{id}', 'App\Http\Controllers\EventoUserControlle
 
 // Comentarios
 Route::get('/comentarios/{id}', 'App\Http\Controllers\ComentarioController@show'); // Muestra los comentarios de un evento
+Route::post('/comentarios', 'App\Http\Controllers\ComentarioController@store'); // Crea un nuevo comentario
 
 
 Route::prefix('v1')->group(function(){

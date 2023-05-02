@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comentario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -35,7 +36,16 @@ class ComentarioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $comentario = new Comentario;
+        $comentario->user_id = $request->user_id;
+        $comentario->evento_id = $request->evento_id;
+        $comentario->comentario = $request->comentario;
+        $comentario->save();
+
+        return response()->json([
+            'mensaje' => 'Comentario publicado',
+            'comentario' => $comentario
+        ]);
     }
 
     /**

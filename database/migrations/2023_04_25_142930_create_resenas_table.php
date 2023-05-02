@@ -15,10 +15,6 @@ class CreateResenasTable extends Migration
     {
         Schema::create('resenas', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_usuario_emisor');
-            $table->foreign('id_usuario_emisor')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedBigInteger('id_usuario_receptor');
-            $table->foreign('id_usuario_receptor')->references('id')->on('users')->onDelete('cascade');
             $table->string('mensaje', 500);
             $table->timestamps();
         });
