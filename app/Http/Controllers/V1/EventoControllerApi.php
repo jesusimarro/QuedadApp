@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V1;
 
 use App\Models\Evento;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
-class EventoController extends Controller
+class EventoControllerApi extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -90,7 +91,7 @@ class EventoController extends Controller
      */
     public function show($id)
     {
-        $datos = DB::table('eventos')
+        /* $datos = DB::table('eventos')
             ->join('users', 'eventos.user_id', '=', 'users.id')
             ->join('categorias', 'eventos.categoria_id', '=', 'categorias.id')
             ->select('eventos.id AS id_evento', 'users.id AS id_organizador', 'users.nombre', 'users.foto', DB::raw('TIMESTAMPDIFF(YEAR, fecha_nacimiento, NOW()) AS edad'), 'eventos.imagen', 'eventos.titulo', 'eventos.descripcion', 'eventos.fecha_hora_inicio', 'eventos.fecha_hora_fin', 'eventos.location', 'eventos.latitud', 'eventos.longitud', 'categorias.categoria', DB::raw('COUNT(evento_users.user_id) as num_asistentes'))
@@ -104,6 +105,20 @@ class EventoController extends Controller
 
         return response()->json([
             'datos' => $datos
+        ]); */
+
+
+        $datos = Evento::select('id', 'titulo', 'descripcion', 'imagen', 'fecha_hora_inicio', 'fecha_hora_fin')
+            ->where('id', $id)
+            ->with(['users' => function ($query) {
+                $query->select('nombre', DB::raw('TIMESTAMPDIFF(YEAR, fecha_nacimiento, NOW()) AS edad'), 'foto')
+                ->join('users', 'users.id', '=', 'eventos.user_id')
+                ->sum('users.foto');
+            }])
+            ->get();
+
+        return response()->json([
+            'eventos' => $datos
         ]);
 
     }

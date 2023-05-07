@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V1;
 
 use App\Models\Comentario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
-class ComentarioController extends Controller
+class ComentarioControllerApi extends Controller
 {
     /**
      * Display a listing of the resource.

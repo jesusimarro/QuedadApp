@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V1;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
-class EventoUserController extends Controller
+class EventoUserControllerApi extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -51,6 +52,7 @@ class EventoUserController extends Controller
             ->join('eventos', 'eventos.id', '=', 'evento_users.evento_id')
             ->select('users.id', 'users.nombre', 'users.foto', 'users.tipo')
             ->where('eventos.id', $id)
+            ->where('evento_users.estado', '=', 1)
             ->get();
 
         return response()->json([

@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V1;
 
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
-class UserController extends Controller
+class UserControllerApi extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -65,8 +66,8 @@ class UserController extends Controller
             ->where('id', $id)
             ->with([
                 'categorias' => function ($query) {
-                    $query->select('categorias.id', 'categorias.categoria', 'categoria_users.user_id')
-                        ->join('categoria_users', 'categorias.id', '=', 'categoria_users.categoria_id');
+                    $query->join('categoria_users', 'categorias.id', '=', 'categoria_users.categoria_id')
+                        ->select('categorias.id', 'categorias.categoria', 'categoria_users.user_id');
                 },
                 'resenas' => function ($query) {
                     $query->select('resenas.id', 'resenas.mensaje', 'resena_users.user_id')
